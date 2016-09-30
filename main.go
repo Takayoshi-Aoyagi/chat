@@ -5,8 +5,10 @@ import (
 	"log"
 	"net/http"
 	"text/template"
+	"os"
 	"path/filepath"
 	"sync"
+	"github.com/Takayoshi-Aoyagi/tracer"
 )
 
 type templateHandler struct {
@@ -28,6 +30,7 @@ func main() {
 	var addr = flag.String("addr", ":8080", "IP Address")
 	flag.Parse()
 	r := newRoom()
+	r.tracer = trace.New(os.Stdout)
 	http.Handle("/", &templateHandler{filename: "chat.html"})
 	http.Handle("/room", r)
 	// Start chat room
